@@ -1,0 +1,217 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Flower, Gift, Sparkles, ShoppingCart, Phone, Instagram, MessageSquare } from "lucide-react";
+
+const flores = [
+  "Rosa Vermelha", "Girassol", "Lírio", "Tulipa", "Margarida", "Orquídea",
+  "Crisântemo", "Azaleia", "Jasmim", "Camélia", "Hortênsia", "Cravo",
+  "Lavanda", "Amor-perfeito", "Peônia", "Dália", "Papoula", "Flor-de-lis",
+  "Violeta", "Flor-de-maio", "Petúnia", "Begônia", "Íris", "Flor de laranjeira",
+  "Bromélia", "Gérbera", "Alstroeméria", "Anêmona", "Copo-de-leite", "Hibisco",
+  "Estrelícia", "Flor-do-campo", "Flor-de-maracujá", "Boca-de-leão", "Flor-de-cera",
+  "Calêndula", "Dente-de-leão", "Flor-da-fortuna", "Flor-de-mel", "Flor-de-seda",
+  "Flor-de-jade", "Flor-de-maçã", "Flor-de-cacto", "Flor-de-mamoeiro",
+  "Flor-de-café", "Flor-do-manacá", "Flor-do-pessegueiro", "Flor-de-abril",
+  "Flor-de-setembro", "Flor-de-lótus"
+];
+
+const significados = {
+  "Rosa Vermelha": "Amor e paixão",
+  "Girassol": "Felicidade e energia",
+  "Lírio": "Pureza e renovação"
+};
+
+const buquesProntos = [
+  {
+    nome: "Buquê Primavera",
+    preco: "R$90",
+    img: "https://source.unsplash.com/400x300/?spring,flowers"
+  },
+  {
+    nome: "Buquê Romântico",
+    preco: "R$110",
+    img: "https://source.unsplash.com/400x300/?romantic,flowers"
+  },
+  {
+    nome: "Buquê Tropical",
+    preco: "R$95",
+    img: "https://source.unsplash.com/400x300/?tropical,flowers"
+  },
+  {
+    nome: "Buquê Clássico",
+    preco: "R$80",
+    img: "https://source.unsplash.com/400x300/?classic,flowers"
+  },
+  {
+    nome: "Buquê Elegante",
+    preco: "R$130",
+    img: "https://source.unsplash.com/400x300/?elegant,flowers"
+  }
+];
+
+export default function FloriculturaSite() {
+  const [carrinho, setCarrinho] = useState([]);
+
+  const adicionarAoCarrinho = (item) => {
+    setCarrinho((prev) => [...prev, item]);
+  };
+
+  const removerDoCarrinho = (index) => {
+    setCarrinho((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-green-50 via-pink-50 to-blue-50 text-gray-800 p-6">
+      <header className="flex justify-between items-center py-6">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl font-bold flex items-center gap-2 text-pink-600"
+        >
+          <Flower className="text-pink-500" />
+          Five Flora
+        </motion.h1>
+
+        <nav className="flex items-center gap-6 text-pink-600">
+          <a href="https://wa.me/55379901011009" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-pink-800">
+            <MessageSquare size={20} /> (37) 9 0101-1009
+          </a>
+          <a href="tel:+55379901011009" className="flex items-center gap-1 hover:text-pink-800">
+            <Phone size={20} /> (37) 9 0101-1009
+          </a>
+          <a href="https://instagram.com/FiveFlora" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-pink-800">
+            <Instagram size={20} /> @FiveFlora
+          </a>
+          <div className="relative cursor-pointer">
+            <ShoppingCart className="w-8 h-8" />
+            {carrinho.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full px-2">
+                {carrinho.length}
+              </span>
+            )}
+          </div>
+        </nav>
+      </header>
+
+      <section className="py-8">
+        <h2 className="text-3xl font-bold text-center mb-6 text-pink-700">Buquês Prontos</h2>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          {buquesProntos.map((buque, i) => (
+            <div
+              key={i}
+              className="rounded-2xl shadow-md cursor-pointer hover:scale-105 transition-transform duration-300 bg-white"
+              onClick={() => adicionarAoCarrinho(buque.nome)}
+            >
+              <img
+                src={buque.img}
+                alt={buque.nome}
+                className="w-full h-40 object-cover rounded-t-2xl"
+              />
+              <div className="p-4">
+                <h3 className="text-lg font-semibold">{buque.nome}</h3>
+                <p className="text-pink-600 font-bold">{buque.preco}</p>
+                <button
+                  className="mt-3 w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded"
+                  onClick={(e) => { e.stopPropagation(); adicionarAoCarrinho(buque.nome); }}
+                >
+                  Comprar
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 py-10">
+        {flores.map((flower, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: i * 0.03 }}
+          >
+            <div className="rounded-2xl shadow-md bg-white">
+              <img
+                src={`https://source.unsplash.com/400x300/?${flower}`}
+                alt={flower}
+                className="w-full h-48 object-cover rounded-t-2xl"
+              />
+              <div className="p-4">
+                <h2 className="text-xl font-semibold mb-2">{flower}</h2>
+                <p className="text-sm text-gray-600 mb-2">
+                  {significados[flower] || "Uma flor especial para qualquer ocasião."}
+                </p>
+                <button
+                  onClick={() => adicionarAoCarrinho(flower)}
+                  className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded"
+                >
+                  Comprar
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </section>
+
+      <section className="py-12">
+        <h2 className="text-3xl font-bold text-center mb-6 text-pink-700">Planos de Assinatura</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[{
+            nome: "Bronze",
+            preco: "R$30/mês",
+            descricao: "Receba flores frescas todos os dias na sua casa.",
+            destaque: false
+          }, {
+            nome: "Silver",
+            preco: "R$50/mês",
+            descricao: "Flores diárias + 2 buquês especiais por mês.",
+            destaque: true
+          }, {
+            nome: "Gold",
+            preco: "R$120/mês",
+            descricao: "Tudo do plano Silver + cestas com flor, ursinho e bombom em datas comemorativas.",
+            destaque: true
+          }].map((plano, i) => (
+            <div
+              key={i}
+              className={`rounded-2xl shadow-md bg-white p-6 ${plano.destaque ? "border-2 border-pink-500" : ""}`}
+            >
+              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                {plano.nome} {plano.nome === "Gold" && <Sparkles className="text-yellow-500" />} {plano.nome === "Silver" && <Gift className="text-gray-500" />}
+              </h3>
+              <p className="text-pink-600 text-lg font-semibold">{plano.preco}</p>
+              <p className="text-gray-600 mt-2 mb-4">{plano.descricao}</p>
+              <button className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded">Assinar</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-white p-6 rounded-2xl shadow-md max-w-2xl mx-auto mt-12">
+        <h3 className="text-2xl font-bold mb-4 text-center">Carrinho de Compras</h3>
+        {carrinho.length === 0 ? (
+          <p className="text-center text-gray-500">Seu carrinho está vazio.</p>
+        ) : (
+          <ul className="space-y-2">
+            {carrinho.map((item, index) => (
+              <li key={index} className="flex justify-between items-center bg-gray-100 p-2 rounded-lg">
+                <span>{item}</span>
+                <button
+                  className="text-pink-600 hover:text-pink-900 font-semibold"
+                  onClick={() => removerDoCarrinho(index)}
+                >
+                  Remover
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <footer className="text-center mt-12 text-sm text-gray-500">
+        © 2025 Five Flora. Todos os direitos reservados.
+      </footer>
+    </div>
+  );
+}
